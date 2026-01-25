@@ -3,6 +3,7 @@ import HeroSlider from '../Components/HeroSlider';
 import FeaturedProducts from '../Components/FeaturedProducts';
 import WhyChose from '../Components/WhyChose';
 import PropertyCategories from '../Components/PropertyCategories';
+import HowItWorks from '../Components/HowItWorks';
 
 const Home = () => {
   return (
@@ -21,6 +22,10 @@ const Home = () => {
 
       <div className="w-full mt-16 shadow-md bg-base-200">
         <PropertyCategories></PropertyCategories>
+      </div>
+
+      <div>
+        <HowItWorks></HowItWorks>
       </div>
     </div>
   );
