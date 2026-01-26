@@ -15,3 +15,7 @@
 .font-poppins {
   font-family: "Poppins", sans-serif !important;
 }
+
+.active{
+  color: blue;
+}
