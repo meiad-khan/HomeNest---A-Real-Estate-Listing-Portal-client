@@ -5,10 +5,10 @@ import { VscSymbolProperty, VscWorkspaceTrusted } from 'react-icons/vsc';
 const WhyChose = () => {
   return (
     <section className="py-16 bg-white rounded-lg mb-10">
-      <div className="max-w-6xl mx-auto px-4 text-center">
+      <div className="w-full lg:w-6xl mx-auto px-4 text-center">
         <h2 className="text-5xl font-poppins font-bold mb-10 text-gray-800">Why Chose Us</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Step 1 */}
           <div className="bg-gray-50 hover:scale-103 p-6 rounded-xl shadow hover:shadow-lg transition">
             <div className="flex flex-col items-center">

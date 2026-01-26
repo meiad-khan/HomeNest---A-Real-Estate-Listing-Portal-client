@@ -9,7 +9,7 @@ const PropertyCategories = () => {
         </h2>
 
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white border rounded-lg p-6 text-center hover:border-primary transition">
             <FaHome className="text-3xl text-primary mx-auto mb-3" />
             <h3 className="font-medium font-inter">Rent</h3>

@@ -8,15 +8,15 @@ import HowItWorks from '../Components/HowItWorks';
 const Home = () => {
   return (
     <div className="mt-10 bg-base-50">
-      <div className="w-7xl mx-auto h-125 overflow-hidden">
+      <div className="max-w-7xl mx-auto overflow-x-hidden">
         <HeroSlider></HeroSlider>
       </div>
 
-      <div className="w-7xl mx-auto mt-16 shadow-md">
+      <div className="max-w-7xl mx-auto mt-16 shadow-md">
         <FeaturedProducts></FeaturedProducts>
       </div>
 
-      <div className="w-7xl mx-auto mt-16 shadow-md">
+      <div className="max-w-7xl mx-auto mt-16 shadow-md">
         <WhyChose></WhyChose>
       </div>
 

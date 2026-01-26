@@ -7,41 +7,56 @@ import AddProperties from "../Pages/AddProperties";
 import MyProperties from "../Pages/MyProperties";
 import MyRatings from "../Pages/MyRatings";
 import Register from "../Pages/Register";
+import PrivateRoute from "./PrivateRoute";
+import Error from "../Pages/error";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
+    errorElement: <Error></Error>,
     element: <HomeLayout></HomeLayout>,
     children: [
       {
         index: true,
-        element: <Home></Home>
+        element: <Home></Home>,
       },
       {
-        path: 'all-properties',
-        element: <AllProperties></AllProperties>
+        path: "all-properties",
+        element: <AllProperties></AllProperties>,
       },
       {
-        path: 'add-properties',
-        element: <AddProperties></AddProperties>
+        path: "add-properties",
+        element: (
+          <PrivateRoute>
+            <AddProperties></AddProperties>
+          </PrivateRoute>
+        ),
       },
       {
-        path: 'my-properties',
-        element: <MyProperties></MyProperties>
+        path: "my-properties",
+        element: (
+          <PrivateRoute>
+            <MyProperties></MyProperties>
+          </PrivateRoute>
+        ),
       },
       {
-        path: 'my-ratings',
-        element: <MyRatings></MyRatings>
+        path: "my-ratings",
+        element: (
+          <PrivateRoute>
+            <MyRatings></MyRatings>
+          </PrivateRoute>
+        ),
       },
       {
-        path: 'register',
-        element: <Register></Register>
+        path: "register",
+        element: <Register></Register>,
       },
       {
-        path: 'login',
-        element: <Login></Login>
-      }
-    ]
-  }
-])
+        path: "login",
+        element: <Login></Login>,
+      },
+    ],
+  },
+]);
 export default router;
