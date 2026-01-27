@@ -43,9 +43,9 @@ const HeroSlider = () => {
     >
       {slides.map((slide) => (
         <SwiperSlide key={slide.id}>
-          <div className="w-full min-h-[70vh] lg:h-full flex flex-col lg:flex-row bg-gray-50 overflow-hidden rounded-xl shadow-lg">
+          <div className="w-full min-h-[70vh] lg:h-full flex flex-col xl:flex-row bg-gray-50 overflow-hidden rounded-xl shadow-lg">
             {/* Left Info Panel (CLEAR) */}
-            <div className="w-full lg:w-1/2 px-6 md:px-16 py-10 flex flex-col justify-center items-center lg:items-start h-full bg-gray-50 z-10 text-center md:text-left">
+            <div className="w-full xl:w-1/2 px-6 md:px-16 py-10 flex flex-col justify-center items-center lg:items-start h-full bg-gray-50 z-10 text-center md:text-left">
               <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 animate-fadeInDown">
                 {slide.title}
               </h1>
@@ -58,7 +58,7 @@ const HeroSlider = () => {
             </div>
 
             {/* Right Image (OVERLAY ONLY HERE) */}
-            <div className="relative w-full lg:w-1/2 h-[40vh] md:h-full overflow-hidden">
+            <div className="relative w-full xl:w-1/2 h-[40vh] md:h-full overflow-hidden">
               <img
                 src={slide.img}
                 alt={slide.title}

@@ -18,7 +18,7 @@ const AddProperties = () => {
   return (
     <div className="lg:min-h-screen max-w-7xl mx-auto my-15 flex flex-col items-center space-y-3.5">
       <h1 className="text-6xl font-poppins text-center">
-        Add A <span className="text-primary">Product</span>
+        Add A <span className="text-primary">Property</span>
       </h1>
       <div className="lg:w-1/2">
         <form onSubmit={handleAddProduct}>
@@ -28,7 +28,7 @@ const AddProperties = () => {
             {/* Product name and Category */}
             <div className="flex justify-between items-center gap-3">
               <div className="w-1/2">
-                <label className="label text-xl">Product Name</label>
+                <label className="label text-xl">Property Name</label>
                 <input
                   type="text"
                   name="pName"
@@ -90,7 +90,7 @@ const AddProperties = () => {
 
             {/* Product image url */}
             <div className="w-full flex flex-col">
-              <label className="label text-xl">Product Image</label>
+              <label className="label text-xl">Property Image</label>
               <input
                 type="text"
                 name="image"
@@ -121,7 +121,7 @@ const AddProperties = () => {
               </div>
             </div>
 
-            <button className="btn btn-primary mt-4">Add Product</button>
+            <button className="btn btn-primary mt-4">Add Property</button>
           </fieldset>
         </form>
       </div>
