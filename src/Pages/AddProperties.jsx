@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from "../Provider/AuthContext";
+
 
 const AddProperties = () => {
+
+  const {user} = useContext(AuthContext)
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -13,7 +17,34 @@ const AddProperties = () => {
     const image = form.image.value;
     const name = form.UserName.value;
     const email = form.email.value;
-    console.log({ pName, category, desc, price, location, image, email, name });
+    // console.log({ pName, category, desc, price, location, image, email, name });
+
+    const newProperty = {
+      propertyName: pName,
+      description: desc,
+      category,
+      price,
+      location,
+      image,
+      userName: name,
+      userEmail: email,
+    };
+
+    // console.log(newProperty);
+
+    fetch("http://localhost:3000/properties", {
+      method: 'POST',
+      headers: {
+        'content-type' : 'application/json'
+      },
+      body: JSON.stringify(newProperty)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log('after post', data);
+        form.reset();
+    })
+
   }
   return (
     <div className="lg:min-h-screen max-w-7xl mx-auto my-15 flex flex-col items-center space-y-3.5">
@@ -108,6 +139,8 @@ const AddProperties = () => {
                   name="email"
                   className="input"
                   placeholder="Email"
+                  defaultValue={user.email}
+                  readOnly
                 />
               </div>
               <div className="w-1/2">
@@ -117,6 +150,8 @@ const AddProperties = () => {
                   name="UserName"
                   className="input"
                   placeholder="Name"
+                  defaultValue={user.displayName}
+                  readOnly
                 />
               </div>
             </div>

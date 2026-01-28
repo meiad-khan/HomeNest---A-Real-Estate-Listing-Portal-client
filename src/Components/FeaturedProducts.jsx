@@ -20,7 +20,7 @@ const FeaturedProducts = ({ featurePromise }) => {
         {featureProperty.map((property) => (
           <div
             key={property._id}
-            className=" w-full card bg-base-100 shadow-sm hover:scale-102"
+            className=" w-full max-h-120 card bg-base-100 shadow-sm hover:scale-102"
           >
             <figure>
               <img
