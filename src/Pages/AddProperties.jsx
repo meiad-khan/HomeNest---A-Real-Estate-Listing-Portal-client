@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from "../Provider/AuthContext";
+import Swal from 'sweetalert2';
 
 
 const AddProperties = () => {
@@ -40,9 +41,19 @@ const AddProperties = () => {
       body: JSON.stringify(newProperty)
     })
       .then(res => res.json())
-      .then(data => {
-        console.log('after post', data);
-        form.reset();
+      .then((data) => {
+        // console.log('after post', data);
+        if (data.insertedId) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Property Added Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+             form.reset();
+       }
+     
     })
 
   }
