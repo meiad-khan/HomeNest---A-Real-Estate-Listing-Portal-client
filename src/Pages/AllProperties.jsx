@@ -28,6 +28,7 @@ const AllProperties = () => {
       })
   }, [limit, sort, order, searchText, currentPage]);
 
+
   // console.log('checking', property);
   
   const handleSort = (e) => {
@@ -35,6 +36,12 @@ const AllProperties = () => {
     const sortText = e.target.value;
     setSort(sortText.split("-")[0]);
     setOrder(sortText.split("-")[1]);
+  }
+
+  const handleSearch = (e) => {
+    // console.log(e.target.value);
+    setSearchText(e.target.value);
+    setCurrentPage(0);
   }
 
   if (loading) {
@@ -78,7 +85,12 @@ const AllProperties = () => {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" required placeholder="Search" />
+            <input
+              onChange={handleSearch}
+              type="search"
+              required
+              placeholder="Search"
+            />
           </label>
         </div>
 
@@ -98,7 +110,7 @@ const AllProperties = () => {
 
       {/* all properties here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {property &&
+        {property.length>0 ? (
           property.map((p) => (
             <div
               key={p._id}
@@ -141,7 +153,14 @@ const AllProperties = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className="col-span-full flex justify-center items-center h-40">
+            <h2 className="text-[48px] font-poppins font-bold text-center">
+              Oops, Property not found!
+            </h2>
+          </div>
+        )}
       </div>
       <div className="flex flex-wrap justify-end gap-3.5 my-5">
         {currentPage > 0 && (
