@@ -9,11 +9,13 @@ import MyRatings from "../Pages/MyRatings";
 import Register from "../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Error from "../Pages/error";
+import Loading from "../Components/Loading";
 
 const router = createBrowserRouter([
   {
     path: "/",
     errorElement: <Error></Error>,
+    hydrateFallbackElement: <Loading></Loading>,
     element: <HomeLayout></HomeLayout>,
     children: [
       {
