@@ -31,7 +31,10 @@ const AllProperties = () => {
   // console.log('checking', property);
   
   const handleSort = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
+    const sortText = e.target.value;
+    setSort(sortText.split("-")[0]);
+    setOrder(sortText.split("-")[1]);
   }
 
   if (loading) {
@@ -46,7 +49,7 @@ const AllProperties = () => {
   
 
   return (
-    <div className="max-w-7xl mx-auto lg:p-4 mt-15 border-2 mb-20 shadow-md border-red-700">
+    <div className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md">
       <h1 className="text-5xl text-center font-bold font-poppins">
         All <span className="text-primary">Properties</span>
       </h1>
@@ -87,9 +90,8 @@ const AllProperties = () => {
             className="select select-md"
           >
             <option disabled={true}>Sort</option>
-            <option>Medium Apple</option>
-            <option>Medium Orange</option>
-            <option>Medium Tomato</option>
+            <option>price-asc</option>
+            <option>price-desc</option>
           </select>
         </div>
       </div>

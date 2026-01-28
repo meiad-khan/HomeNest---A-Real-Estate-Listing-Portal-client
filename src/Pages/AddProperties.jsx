@@ -12,7 +12,7 @@ const AddProperties = () => {
     const pName = form.pName.value;
     const category = form.category.value;
     const desc = form.desc.value;
-    const price = form.price.value;
+    const price = Number(form.price.value);
     const location = form.location.value;
     const image = form.image.value;
     const name = form.UserName.value;
