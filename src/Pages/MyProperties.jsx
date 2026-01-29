@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../Provider/AuthContext';
+import Swal from 'sweetalert2';
 
 const MyProperties = () => {
 
@@ -17,12 +18,14 @@ const MyProperties = () => {
   const modalRef = useRef();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/properties?email=${user.email}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log('data from user email', data.result, data.total);
-        setMyProperty(data.result);
-      })
+    if (user) {
+      fetch(`http://localhost:3000/properties?email=${user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("data from user email", data.result, data.total);
+          setMyProperty(data.result);
+        });
+    }
   }, [user]);
 
   const handleUpdate = (e) => {
@@ -37,8 +40,23 @@ const MyProperties = () => {
       body: JSON.stringify(updateData)
     })
       .then(res => res.json())
-      .then(data => {
-        console.log('after updating', data);
+      .then(data => { //start from here......
+        if (data.modifiedCount) {
+          setMyProperty(prev => 
+            prev.map(item => 
+              item._id === editProperty._id ? {...item, ...editProperty} : item
+            )
+          );
+          // console.log("after updating", data);
+          Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Property Updated Successfully",
+                      showConfirmButton: false,
+                      timer: 1500,
+          });
+          modalRef.current.close();
+        }
     })
   }
 
@@ -52,74 +70,77 @@ const MyProperties = () => {
 
       {/* my property here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {myProperty.map((p) => (
-          <div
-            key={p._id}
-            className=" w-full max-h-120 card bg-base-100 shadow-sm hover:scale-102"
-          >
-            <figure>
-              <img
-                src={p.image}
-                alt="Property"
-                className="w-full h-full object-cover"
-              />
-            </figure>
-            <div className="card-body">
-              {/* name + category */}
-              <div className="flex justify-between">
-                <div>
-                  <h2 className="card-title">{p.propertyName}</h2>
+        {myProperty.length > 0 &&
+          myProperty.map((p) => (
+            <div
+              key={p._id}
+              className=" w-full max-h-120 card bg-base-100 shadow-sm hover:scale-102"
+            >
+              <figure>
+                <img
+                  src={p.image}
+                  alt="Property"
+                  className="w-full h-full object-cover"
+                />
+              </figure>
+              <div className="card-body">
+                {/* name + category */}
+                <div className="flex justify-between">
+                  <div>
+                    <h2 className="card-title">{p.propertyName}</h2>
+                  </div>
+                  <div>
+                    <h2>{p.category}</h2>
+                  </div>
                 </div>
+
+                {/* description */}
                 <div>
-                  <h2>{p.category}</h2>
+                  <p className="font-inter">
+                    Posted Date: {new Date(p.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
-              </div>
 
-              {/* description */}
-              <div>
-                <p className="font-inter">
-                  Posted Date: {new Date(p.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-
-              {/* location + price  */}
-              <div className="flex justify-between">
-                <div>
-                  <h2 className="card-title">{p.location}</h2>
+                {/* location + price  */}
+                <div className="flex justify-between">
+                  <div>
+                    <h2 className="card-title">{p.location}</h2>
+                  </div>
+                  <div>
+                    <h2>Price: ৳{p.price}</h2>
+                  </div>
                 </div>
-                <div>
-                  <h2>Price: ৳{p.price}</h2>
+
+                {/* update and delete button */}
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => {
+                      setEditProperty({
+                        _id: p._id,
+                        propertyName: p.propertyName ?? "",
+                        category: p.category ?? "",
+                        description: p.description ?? "",
+                        price: p.price ?? "",
+                        location: p.location ?? "",
+                        image: p.image ?? "",
+                      });
+                      modalRef.current.showModal();
+                    }}
+                    className="btn bg-gray-300"
+                  >
+                    Update
+                  </button>
+                  <button className="btn bg-gray-300">Delete</button>
                 </div>
-              </div>
 
-              {/* update and delete button */}
-              <div className="flex justify-between">
-                <button
-                  onClick={() => {
-                    setEditProperty({
-                      _id: p._id,
-                      propertyName: p.propertyName ?? "",
-                      category: p.category ?? "",
-                      description: p.description ?? "",
-                      price: p.price ?? "",
-                      location: p.location ?? "",
-                      image: p.image ?? "",
-                    });
-                    modalRef.current.showModal();
-                  }}
-                  className="btn bg-gray-300"
-                >
-                  Update
-                </button>
-                <button className="btn bg-gray-300">Delete</button>
-              </div>
-
-              <div className="card-actions justify-end">
-                <button className="btn w-full btn-primary">View Details</button>
+                <div className="card-actions justify-end">
+                  <button className="btn w-full btn-primary">
+                    View Details
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       {/* modal... */}
       {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -127,7 +148,9 @@ const MyProperties = () => {
         <div className="modal-box">
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="font-bold text-lg">Hello!</h3>
+              <h3 className="font-bold font-poppins text-2xl">
+                Update <span className='text-primary'>Property!</span>
+              </h3>
             </div>
             <div className="modal-action -mt-2 -mr-2">
               <form method="dialog">
@@ -161,8 +184,11 @@ const MyProperties = () => {
                       className="input"
                       placeholder="Product Name"
                       value={editProperty.propertyName}
-                      onChange={e =>
-                        setEditProperty({ ...editProperty, propertyName: e.target.value })
+                      onChange={(e) =>
+                        setEditProperty({
+                          ...editProperty,
+                          propertyName: e.target.value,
+                        })
                       }
                     />
                   </div>
@@ -174,7 +200,10 @@ const MyProperties = () => {
                       className="select select-bordered w-full"
                       value={editProperty.category}
                       onChange={(e) =>
-                        setEditProperty({...editProperty, category:e.target.value})
+                        setEditProperty({
+                          ...editProperty,
+                          category: e.target.value,
+                        })
                       }
                     >
                       <option className="" value="" disabled>
@@ -198,7 +227,10 @@ const MyProperties = () => {
                     placeholder="Description"
                     value={editProperty.description}
                     onChange={(e) =>
-                      setEditProperty({...editProperty, description: e.target.value})
+                      setEditProperty({
+                        ...editProperty,
+                        description: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -214,7 +246,10 @@ const MyProperties = () => {
                       placeholder="Price"
                       value={editProperty.price}
                       onChange={(e) =>
-                        setEditProperty({...editProperty, price: Number(e.target.value)})
+                        setEditProperty({
+                          ...editProperty,
+                          price: Number(e.target.value),
+                        })
                       }
                     />
                   </div>
@@ -227,7 +262,10 @@ const MyProperties = () => {
                       placeholder="Location"
                       value={editProperty.location}
                       onChange={(e) =>
-                        setEditProperty({...editProperty, location: e.target.value})
+                        setEditProperty({
+                          ...editProperty,
+                          location: e.target.value,
+                        })
                       }
                     />
                   </div>
@@ -243,7 +281,10 @@ const MyProperties = () => {
                     placeholder="photoURL"
                     value={editProperty.image}
                     onChange={(e) =>
-                      setEditProperty({...editProperty, image: e.target.value})
+                      setEditProperty({
+                        ...editProperty,
+                        image: e.target.value,
+                      })
                     }
                   />
                 </div>

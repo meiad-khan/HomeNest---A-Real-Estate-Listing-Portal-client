@@ -4,7 +4,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const AllProperties = () => {
 
-  const { user, loading } = useContext(AuthContext);
+  const {loading } = useContext(AuthContext);
   
  
   const [property, setProperty] = useState([]);
@@ -12,7 +12,7 @@ const AllProperties = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [sort, setSort] = useState("price");
-  const [order, setOrder] = useState('');
+  const [order, setOrder] = useState('asc');
   const [searchText, setSearchText] = useState("");
   const limit = 6;
 
