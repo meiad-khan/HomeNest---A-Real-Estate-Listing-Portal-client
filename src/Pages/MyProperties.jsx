@@ -62,28 +62,46 @@ const MyProperties = () => {
 
   const handleDelete = (id) => {
     // console.log('delete the id ', id);
-    fetch(`http://localhost:3000/properties/${id}`, {
-      method: "delete",
-      headers: { 'content-type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(data => {
-        // console.log(data);
-        if (data.deletedCount) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Property Deleted Successfully",
-            showConfirmButton: false,
-            timer: 1500,
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/properties/${id}`, {
+          method: "delete",
+          headers: { "content-type": "application/json" },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // console.log(data);
+            if (data.deletedCount) {
+              // Swal.fire({
+              //   position: "top-end",
+              //   icon: "success",
+              //   title: "Property Deleted Successfully",
+              //   showConfirmButton: false,
+              //   timer: 1500,
+              // });
+              const remaimingProperties = myProperty.filter(
+                (property) => property._id !== id,
+              );
+              setMyProperty(remaimingProperties);
+              // console.log('my property', myProperty);
+              // console.log('remaining ', remaimingProperties);
+            }
           });
-          const remaimingProperties = myProperty.filter(property => property._id !== id);
-          setMyProperty(remaimingProperties);
-          // console.log('my property', myProperty);
-          // console.log('remaining ', remaimingProperties);
-        }
-        
-    })
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Property has been deleted.",
+          icon: "success",
+        });
+      }
+    });
   }
 
   
@@ -96,7 +114,7 @@ const MyProperties = () => {
 
       {/* my property here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {myProperty.length > 0 &&
+        {myProperty.length > 0 ?
           myProperty.map((p) => (
             <div
               key={p._id}
@@ -168,7 +186,13 @@ const MyProperties = () => {
                 </div>
               </div>
             </div>
-          ))}
+          )):(
+          <div className="col-span-full flex justify-center items-center h-40">
+            <h2 className="text-[48px] font-poppins font-bold text-center">
+              Oops, You Have No Property!
+            </h2>
+          </div>
+        )}
       </div>
       {/* modal... */}
       {/* Open the modal using document.getElementById('ID').showModal() method */}

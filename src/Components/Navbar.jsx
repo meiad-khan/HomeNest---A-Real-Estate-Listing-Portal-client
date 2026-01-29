@@ -80,8 +80,8 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <a onClick={()=>navigate('/')} className="btn btn-ghost text-2xl font-poppins">
-            <MdRealEstateAgent />
+          <a onClick={()=>navigate('/')} className="btn btn-ghost text-3xl font-poppins">
+            <MdRealEstateAgent className='text-primary' />
             houzez
           </a>
         </div>

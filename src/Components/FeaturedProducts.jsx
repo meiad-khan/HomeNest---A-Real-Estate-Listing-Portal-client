@@ -1,5 +1,5 @@
 import React, { use } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const FeaturedProducts = ({ featurePromise }) => {
   const featureProperty = use(featurePromise);
@@ -55,7 +55,10 @@ const FeaturedProducts = ({ featurePromise }) => {
                 </div>
               </div>
               <div className="card-actions justify-end">
-                <button className="btn btn-primary">View Details</button>
+                {/* <button className="btn btn-primary">View Details</button> */}
+                <Link to={`/property-details/${property._id}`} className="btn btn-primary">
+                  View Details
+                </Link>
               </div>
             </div>
           </div>

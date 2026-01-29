@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const AddProperties = () => {
 
-  const {user} = useContext(AuthContext)
+  const {user, error, setError} = useContext(AuthContext)
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -19,8 +19,34 @@ const AddProperties = () => {
     const name = form.UserName.value;
     const email = form.email.value;
     // console.log({ pName, category, desc, price, location, image, email, name });
+    if (!pName.trim()) {
+      setError('Please fill the property name');
+      return;
+    }
+    if (!category) {
+      setError('Please select a category');
+      return;
+    }
+    if (!desc.trim()) {
+      setError('Please write description');
+      return;
+    }
+    if (!price || price <= 0) {
+      setError('Please use valid price');
+      return;
+    }
+    if (!location.trim()) {
+      setError('Please write property location');
+      return;
+    }
+    if (!image.trim()) {
+      setError('Please fill the image field');
+      return;
+    }
+    
+    setError('');
 
-    const newProperty = {
+      const newProperty = {
       propertyName: pName,
       description: desc,
       category,
@@ -168,6 +194,9 @@ const AddProperties = () => {
             </div>
 
             <button className="btn btn-primary mt-4">Add Property</button>
+            {error && (
+              <p className="text-red-500 font-inter text-sm">{error}</p>
+            )}
           </fieldset>
         </form>
       </div>

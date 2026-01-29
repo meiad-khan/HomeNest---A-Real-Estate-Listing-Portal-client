@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Provider/AuthContext';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router';
 
 const AllProperties = () => {
 
@@ -40,7 +41,7 @@ const AllProperties = () => {
 
   const handleSearch = (e) => {
     // console.log(e.target.value);
-    setSearchText(e.target.value);
+    setSearchText((e.target.value).trim());
     setCurrentPage(0);
   }
 
@@ -149,7 +150,9 @@ const AllProperties = () => {
                   </div>
                 </div>
                 <div className="card-actions justify-end">
-                  <button className="btn btn-primary">View Details</button>
+                  <Link to={`/property-details/${p._id}`} className="btn btn-primary">
+                                    View Details
+                                  </Link>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter} from "react-router";
 import HomeLayout from "../Layout/HomeLayout";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
@@ -10,6 +10,7 @@ import Register from "../Pages/Register";
 import PrivateRoute from "./PrivateRoute";
 import Error from "../Pages/error";
 import Loading from "../Components/Loading";
+import PropertyDetails from "../Pages/PropertyDetails";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,16 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login></Login>,
+      },
+      {
+        path: "property-details/:id",
+        element: (
+          <PrivateRoute>
+            <PropertyDetails></PropertyDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/properties/${params.id}`),
       },
     ],
   },
