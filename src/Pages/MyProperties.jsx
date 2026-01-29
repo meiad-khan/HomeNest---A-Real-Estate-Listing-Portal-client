@@ -22,7 +22,7 @@ const MyProperties = () => {
       fetch(`http://localhost:3000/properties?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("data from user email", data.result, data.total);
+          // console.log("data from user email", data.result, data.total);
           setMyProperty(data.result);
         });
     }
@@ -57,6 +57,32 @@ const MyProperties = () => {
           });
           modalRef.current.close();
         }
+    })
+  }
+
+  const handleDelete = (id) => {
+    // console.log('delete the id ', id);
+    fetch(`http://localhost:3000/properties/${id}`, {
+      method: "delete",
+      headers: { 'content-type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data);
+        if (data.deletedCount) {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Property Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          const remaimingProperties = myProperty.filter(property => property._id !== id);
+          setMyProperty(remaimingProperties);
+          // console.log('my property', myProperty);
+          // console.log('remaining ', remaimingProperties);
+        }
+        
     })
   }
 
@@ -130,7 +156,9 @@ const MyProperties = () => {
                   >
                     Update
                   </button>
-                  <button className="btn bg-gray-300">Delete</button>
+                  <button onClick={()=>handleDelete(p._id)} className="btn bg-gray-300">
+                    Delete
+                  </button>
                 </div>
 
                 <div className="card-actions justify-end">
@@ -149,7 +177,7 @@ const MyProperties = () => {
           <div className="flex justify-between items-center">
             <div>
               <h3 className="font-bold font-poppins text-2xl">
-                Update <span className='text-primary'>Property!</span>
+                Update <span className="text-primary">Property!</span>
               </h3>
             </div>
             <div className="modal-action -mt-2 -mr-2">
