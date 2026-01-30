@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../Provider/AuthContext';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const MyProperties = () => {
 
@@ -114,7 +115,7 @@ const MyProperties = () => {
 
       {/* my property here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {myProperty.length > 0 ?
+        {myProperty.length > 0 ? (
           myProperty.map((p) => (
             <div
               key={p._id}
@@ -174,19 +175,26 @@ const MyProperties = () => {
                   >
                     Update
                   </button>
-                  <button onClick={()=>handleDelete(p._id)} className="btn bg-gray-300">
+                  <button
+                    onClick={() => handleDelete(p._id)}
+                    className="btn bg-gray-300"
+                  >
                     Delete
                   </button>
                 </div>
 
                 <div className="card-actions justify-end">
-                  <button className="btn w-full btn-primary">
+                  <Link
+                    to={`/property-details/${p._id}`}
+                    className="btn w-full btn-primary"
+                  >
                     View Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
-          )):(
+          ))
+        ) : (
           <div className="col-span-full flex justify-center items-center h-40">
             <h2 className="text-[48px] font-poppins font-bold text-center">
               Oops, You Have No Property!
