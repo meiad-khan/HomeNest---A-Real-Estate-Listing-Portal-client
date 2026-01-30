@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import { AuthContext } from "../Provider/AuthContext";
-import Swal from 'sweetalert2';
-
+import Swal from "sweetalert2";
 
 const AddProperties = () => {
-
-  const {user, error, setError} = useContext(AuthContext)
+  const { user, error, setError } = useContext(AuthContext);
 
   const handleAddProduct = (e) => {
     e.preventDefault();
@@ -20,33 +18,33 @@ const AddProperties = () => {
     const email = form.email.value;
     // console.log({ pName, category, desc, price, location, image, email, name });
     if (!pName.trim()) {
-      setError('Please fill the property name');
+      setError("Please fill the property name");
       return;
     }
     if (!category) {
-      setError('Please select a category');
+      setError("Please select a category");
       return;
     }
     if (!desc.trim()) {
-      setError('Please write description');
+      setError("Please write description");
       return;
     }
     if (!price || price <= 0) {
-      setError('Please use valid price');
+      setError("Please use valid price");
       return;
     }
     if (!location.trim()) {
-      setError('Please write property location');
+      setError("Please write property location");
       return;
     }
     if (!image.trim()) {
-      setError('Please fill the image field');
+      setError("Please fill the image field");
       return;
     }
-    
-    setError('');
 
-      const newProperty = {
+    setError("");
+
+    const newProperty = {
       propertyName: pName,
       description: desc,
       category,
@@ -60,13 +58,13 @@ const AddProperties = () => {
     // console.log(newProperty);
 
     fetch("http://localhost:3000/properties", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'content-type' : 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify(newProperty)
+      body: JSON.stringify(newProperty),
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((data) => {
         // console.log('after post', data);
         if (data.insertedId) {
@@ -77,12 +75,10 @@ const AddProperties = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-             form.reset();
-       }
-     
-    })
-
-  }
+          form.reset();
+        }
+      });
+  };
   return (
     <div className="lg:min-h-screen max-w-7xl mx-auto my-15 flex flex-col items-center space-y-3.5">
       <h1 className="text-6xl font-poppins text-center">

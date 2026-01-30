@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLoaderData, useParams } from 'react-router';
+import React, { useEffect, useState } from "react";
+import { useLoaderData, useParams } from "react-router";
 import { Rating } from "@smastrom/react-rating";
-
 
 const PropertyDetails = () => {
   const property = useLoaderData();
@@ -13,11 +12,11 @@ const PropertyDetails = () => {
 
   useEffect(() => {
     fetch(`http://localhost:3000/reviews/${id}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         // console.log('after getting reviews ', data);
         setReviews(data);
-      })
+      });
   }, [id]);
   // console.log('review are ', reviews);
 

@@ -1,12 +1,14 @@
-import React from 'react';
-import { MdVerified } from 'react-icons/md';
-import { VscSymbolProperty, VscWorkspaceTrusted } from 'react-icons/vsc';
+import React from "react";
+import { MdVerified } from "react-icons/md";
+import { VscSymbolProperty, VscWorkspaceTrusted } from "react-icons/vsc";
 
 const WhyChose = () => {
   return (
     <section className=" bg-white rounded-lg mb-10">
       <div className="w-full mx-auto px-4 text-center">
-        <h2 className="text-5xl font-poppins font-bold mb-10 text-gray-800">Why Chose Us</h2>
+        <h2 className="text-5xl font-poppins font-bold mb-10 text-gray-800">
+          Why Chose Us
+        </h2>
 
         <div className="flex flex-col md:flex-row gap-8">
           {/* Step 1 */}

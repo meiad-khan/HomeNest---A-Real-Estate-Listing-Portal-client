@@ -1,26 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../Provider/AuthContext';
-import { Rating } from '@smastrom/react-rating';
-import Loading from '../Components/Loading';
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Provider/AuthContext";
+import { Rating } from "@smastrom/react-rating";
+import Loading from "../Components/Loading";
 
 const MyRatings = () => {
   const { user, loading } = useContext(AuthContext);
   const [ratings, setRings] = useState([]);
 
-  
   useEffect(() => {
     if (user) {
       fetch(`http://localhost:3000/reviews?email=${user.email}`)
-        .then(res => res.json())
-        .then(data => {
-          console.log('ratings are ', data);
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("ratings are ", data);
           setRings(data);
-      })
+        });
     }
-  }, [user])
-  
+  }, [user]);
+
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -61,7 +60,8 @@ const MyRatings = () => {
 
                 {/* Date */}
                 <p className="text-xs text-gray-400">
-                  Review Date: {new Date(rating.reviewDate).toLocaleDateString()}
+                  Review Date:{" "}
+                  {new Date(rating.reviewDate).toLocaleDateString()}
                 </p>
               </div>
             </div>

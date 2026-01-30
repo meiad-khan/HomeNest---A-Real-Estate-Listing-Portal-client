@@ -1,29 +1,38 @@
-import React, { useContext } from 'react';
-import { MdRealEstateAgent } from 'react-icons/md';
-import { Link, NavLink, useNavigate } from 'react-router';
-import { AuthContext } from '../Provider/AuthContext';
-import { toast } from 'react-toastify';
-import { IoManSharp } from 'react-icons/io5';
+import React, { useContext, useEffect, useState } from "react";
+import { MdRealEstateAgent } from "react-icons/md";
+import { Link, NavLink, useNavigate } from "react-router";
+import { AuthContext } from "../Provider/AuthContext";
+import { toast } from "react-toastify";
+import { IoManSharp } from "react-icons/io5";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   // console.log('from navbar', user);
   const navigate = useNavigate();
-  
+   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+   useEffect(() => {
+     const html = document.querySelector("html");
+     html.setAttribute("data-theme", theme);
+     localStorage.setItem("theme", theme);
+   }, [theme]);
+
+   const handleTheme = (checked) => {
+     setTheme(checked ? "dark" : "light");
+   };
 
   const handleLogOut = () => {
     logOut()
       .then(() => {
         // console.log(result);
-        toast.success('log out successful');
-        navigate('/');
+        toast.success("log out successful");
+        navigate("/");
       })
       .catch(() => {
         // console.log(e.message);
-        toast.error('Logout failed');
-    })
+        toast.error("Logout failed");
+      });
   };
-  
 
   const links = (
     <>
@@ -80,8 +89,11 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <a onClick={()=>navigate('/')} className="btn btn-ghost text-3xl font-poppins">
-            <MdRealEstateAgent className='text-primary' />
+          <a
+            onClick={() => navigate("/")}
+            className="btn btn-ghost text-3xl font-poppins"
+          >
+            <MdRealEstateAgent className="text-primary" />
             houzez
           </a>
         </div>
@@ -119,6 +131,14 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a className="font-inter text-sm ">{user.email}</a>
+                </li>
+                <li className="my-2">
+                  <input
+                    onChange={(e) => handleTheme(e.target.checked)}
+                    type="checkbox"
+                    defaultChecked={localStorage.getItem("theme") === "dark"}
+                    className="toggle"
+                  />
                 </li>
                 <li>
                   <a

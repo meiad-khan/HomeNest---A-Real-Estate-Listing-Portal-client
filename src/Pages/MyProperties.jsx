@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../Provider/AuthContext';
-import Swal from 'sweetalert2';
-import { Link } from 'react-router';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../Provider/AuthContext";
+import Swal from "sweetalert2";
+import { Link } from "react-router";
 
 const MyProperties = () => {
-
   const { user } = useContext(AuthContext);
   const [myProperty, setMyProperty] = useState([]);
   const [editProperty, setEditProperty] = useState({
@@ -31,35 +30,38 @@ const MyProperties = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    
+
     const { _id, ...updateData } = editProperty;
     // console.log('consoling update data',updateData);
-    
+
     fetch(`http://localhost:3000/properties/${_id}`, {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(updateData)
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(updateData),
     })
-      .then(res => res.json())
-      .then(data => { //start from here......
+      .then((res) => res.json())
+      .then((data) => {
+        //start from here......
         if (data.modifiedCount) {
-          setMyProperty(prev => 
-            prev.map(item => 
-              item._id === editProperty._id ? {...item, ...editProperty} : item
-            )
+          setMyProperty((prev) =>
+            prev.map((item) =>
+              item._id === editProperty._id
+                ? { ...item, ...editProperty }
+                : item,
+            ),
           );
           // console.log("after updating", data);
           Swal.fire({
-                      position: "top-end",
-                      icon: "success",
-                      title: "Property Updated Successfully",
-                      showConfirmButton: false,
-                      timer: 1500,
+            position: "top-end",
+            icon: "success",
+            title: "Property Updated Successfully",
+            showConfirmButton: false,
+            timer: 1500,
           });
           modalRef.current.close();
         }
-    })
-  }
+      });
+  };
 
   const handleDelete = (id) => {
     // console.log('delete the id ', id);
@@ -103,9 +105,7 @@ const MyProperties = () => {
         });
       }
     });
-  }
-
-  
+  };
 
   return (
     <div className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md">

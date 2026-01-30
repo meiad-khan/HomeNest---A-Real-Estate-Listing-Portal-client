@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
-import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
-import { Link, useLocation, useNavigate } from 'react-router';
-import { AuthContext } from '../Provider/AuthContext';
-import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
+import React, { useContext, useState } from "react";
+import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../Provider/AuthContext";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [show, setShow] = useState(false);
-  const {error, setError, googleLogin, signIn } = useContext(AuthContext);
+  const { error, setError, googleLogin, signIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,15 +16,14 @@ const Login = () => {
       .then(() => {
         toast.success("Login with google successful");
         // console.log(data.user);
-        navigate(`${location.state? location.state: "/"}`);
+        navigate(`${location.state ? location.state : "/"}`);
         // navigate(0);
       })
       .catch(() => {
-        toast.error('Login with Google Fail');
+        toast.error("Login with Google Fail");
       });
   };
-  
-  
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -35,21 +34,20 @@ const Login = () => {
     signIn(email, password)
       .then(() => {
         Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Login Succesful",
-                  showConfirmButton: false,
-                  timer: 1500,
+          position: "top-end",
+          icon: "success",
+          title: "Login Succesful",
+          showConfirmButton: false,
+          timer: 1500,
         });
         form.reset();
         // console.log('after login', result);
-        navigate(`${location.state? location.state: "/"}`);
+        navigate(`${location.state ? location.state : "/"}`);
       })
       .catch(() => {
-        setError('Incorrect email or password');
-    })
-
-  }
+        setError("Incorrect email or password");
+      });
+  };
 
   return (
     <div className="lg:min-h-screen bg-base-400 flex flex-col md:flex-row gap-10 items-center justify-center my-15 md:my-37 lg:my-0">

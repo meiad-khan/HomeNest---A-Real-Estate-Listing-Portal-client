@@ -8,7 +8,6 @@ const PropertyCategories = () => {
           <span className="text-primary">Property</span> Categories
         </h2>
 
-        
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white border rounded-lg p-6 text-center hover:border-primary transition">
             <FaHome className="text-3xl text-primary mx-auto mb-3" />

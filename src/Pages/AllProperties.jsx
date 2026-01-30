@@ -1,49 +1,48 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../Provider/AuthContext';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { Link } from 'react-router';
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Provider/AuthContext";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router";
 
 const AllProperties = () => {
+  const { loading } = useContext(AuthContext);
 
-  const {loading } = useContext(AuthContext);
-  
- 
   const [property, setProperty] = useState([]);
   const [totalProperty, setTotalProperty] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [sort, setSort] = useState("price");
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState("asc");
   const [searchText, setSearchText] = useState("");
   const limit = 6;
 
   useEffect(() => {
-    fetch(`http://localhost:3000/properties?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`)
-      .then(res => res.json())
-      .then(data => {
+    fetch(
+      `http://localhost:3000/properties?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
         // console.log('all product hrere', data);
         setProperty(data.result);
         setTotalProperty(data.total);
         const page = Math.ceil(data.total / limit);
         setTotalPage(page);
-      })
+      });
   }, [limit, sort, order, searchText, currentPage]);
 
-
   // console.log('checking', property);
-  
+
   const handleSort = (e) => {
     // console.log(e.target.value);
     const sortText = e.target.value;
     setSort(sortText.split("-")[0]);
     setOrder(sortText.split("-")[1]);
-  }
+  };
 
   const handleSearch = (e) => {
     // console.log(e.target.value);
-    setSearchText((e.target.value).trim());
+    setSearchText(e.target.value.trim());
     setCurrentPage(0);
-  }
+  };
 
   if (loading) {
     return (
@@ -54,7 +53,6 @@ const AllProperties = () => {
       </>
     );
   }
-  
 
   return (
     <div className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md">
@@ -111,7 +109,7 @@ const AllProperties = () => {
 
       {/* all properties here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {property.length>0 ? (
+        {property.length > 0 ? (
           property.map((p) => (
             <div
               key={p._id}
@@ -150,9 +148,12 @@ const AllProperties = () => {
                   </div>
                 </div>
                 <div className="card-actions justify-end">
-                  <Link to={`/property-details/${p._id}`} className="btn btn-primary">
-                                    View Details
-                                  </Link>
+                  <Link
+                    to={`/property-details/${p._id}`}
+                    className="btn btn-primary"
+                  >
+                    View Details
+                  </Link>
                 </div>
               </div>
             </div>
