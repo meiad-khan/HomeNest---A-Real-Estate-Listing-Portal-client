@@ -57,7 +57,7 @@ const AddProperties = () => {
 
     // console.log(newProperty);
 
-    fetch("http://localhost:3000/properties", {
+    fetch("https://real-estate-server-khaki-eight.vercel.app/properties", {
       method: "POST",
       headers: {
         "content-type": "application/json",

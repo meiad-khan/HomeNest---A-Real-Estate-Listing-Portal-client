@@ -67,7 +67,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/properties/${params.id}`),
+          fetch(`https://real-estate-server-khaki-eight.vercel.app/properties/${params.id}`),
       },
     ],
   },

@@ -31,8 +31,8 @@ const Register = () => {
     // console.log({ name, email, password, photoURL });
     setError("");
     createUser(email, password)
-      .then((result) => {
-        console.log("after register", result.user);
+      .then(() => {
+        // console.log("after register", result.user);
         updateProfile(auth.currentUser, { displayName: name, photoURL })
           .then(() => {
             Swal.fire({

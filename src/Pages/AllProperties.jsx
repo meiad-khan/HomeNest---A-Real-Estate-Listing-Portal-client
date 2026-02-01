@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthContext";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router";
+import Loading from "../Components/Loading";
 
 const AllProperties = () => {
   const { loading } = useContext(AuthContext);
+  const [allPropertyLoading, setAllPropertyLoading] = useState(false);
 
   const [property, setProperty] = useState([]);
   const [totalProperty, setTotalProperty] = useState(0);
@@ -15,20 +17,41 @@ const AllProperties = () => {
   const [searchText, setSearchText] = useState("");
   const limit = 6;
 
+  // useEffect(() => {
+  //   fetch(
+  //     `https://real-estate-server-khaki-eight.vercel.app/properties?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`,
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // console.log('all product hrere', data);
+        // setProperty(data.result);
+        // setTotalProperty(data.total);
+        // const page = Math.ceil(data.total / limit);
+        // setTotalPage(page);
+  //     });
+  // }, [limit, sort, order, searchText, currentPage]);
+
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/properties?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log('all product hrere', data);
+    const fetchAllProperties = async () => {
+      setAllPropertyLoading(true);
+      try {
+        const res = await fetch(
+          `https://real-estate-server-khaki-eight.vercel.app/properties?limit=${limit}&skip=${currentPage * limit}&sort=${sort}&order=${order}&search=${searchText}`,
+        );
+        const data = await res.json();
+        // console.log('data is ', data);
         setProperty(data.result);
         setTotalProperty(data.total);
         const page = Math.ceil(data.total / limit);
-        setTotalPage(page);
-      });
+        setTotalPage(page); 
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setAllPropertyLoading(false);
+      }
+    };
+    fetchAllProperties();
   }, [limit, sort, order, searchText, currentPage]);
-
   // console.log('checking', property);
 
   const handleSort = (e) => {
@@ -109,7 +132,11 @@ const AllProperties = () => {
 
       {/* all properties here */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {property.length > 0 ? (
+        {allPropertyLoading ? (
+          <div className="col-span-full">
+            <Loading></Loading>
+          </div>
+        ) : property.length > 0 ? (
           property.map((p) => (
             <div
               key={p._id}

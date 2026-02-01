@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../Provider/AuthContext";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
+import Loading from "../Components/Loading";
 
 const MyProperties = () => {
   const { user } = useContext(AuthContext);
+  const [myPropertyLoading, setMyPropertyLoading] = useState(false);
   const [myProperty, setMyProperty] = useState([]);
   const [editProperty, setEditProperty] = useState({
     propertyName: "",
@@ -16,16 +18,44 @@ const MyProperties = () => {
   });
 
   const modalRef = useRef();
+  /**useEffect(() => {
+  if (!user) return;
+  const fetchProperties = async () => {
+    setMyPropertyLoading(true);
+    try {
+      const res = await fetch(
+        `https://real-estate-server-khaki-eight.vercel.app/properties?email=${user.email}`
+      );
+      const data = await res.json();
+      setMyProperties(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setMyPropertyLoading(false);
+    }
+  };
+  fetchProperties();
+}, [user]);
+ */
 
   useEffect(() => {
-    if (user) {
-      fetch(`http://localhost:3000/properties?email=${user.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log("data from user email", data.result, data.total);
-          setMyProperty(data.result);
-        });
+    if (!user) return;
+    const fetchProperties = async () => {
+      setMyPropertyLoading(true);
+      try {
+        const res = await fetch(`https://real-estate-server-khaki-eight.vercel.app/properties?email=${user.email}`);
+        const data = await res.json();
+        // console.log('data is ', data);
+        setMyProperty(data.result);
+      }
+      catch (error) {
+        console.error(error);
+      }
+      finally {
+        setMyPropertyLoading(false);
+      }
     }
+    fetchProperties(); 
   }, [user]);
 
   const handleUpdate = (e) => {
@@ -34,11 +64,14 @@ const MyProperties = () => {
     const { _id, ...updateData } = editProperty;
     // console.log('consoling update data',updateData);
 
-    fetch(`http://localhost:3000/properties/${_id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(updateData),
-    })
+    fetch(
+      `https://real-estate-server-khaki-eight.vercel.app/properties/${_id}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(updateData),
+      },
+    )
       .then((res) => res.json())
       .then((data) => {
         //start from here......
@@ -75,10 +108,13 @@ const MyProperties = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/properties/${id}`, {
-          method: "delete",
-          headers: { "content-type": "application/json" },
-        })
+        fetch(
+          `https://real-estate-server-khaki-eight.vercel.app/properties/${id}`,
+          {
+            method: "delete",
+            headers: { "content-type": "application/json" },
+          },
+        )
           .then((res) => res.json())
           .then((data) => {
             // console.log(data);
@@ -107,6 +143,8 @@ const MyProperties = () => {
     });
   };
 
+  // console.log('my property', myProperty);
+
   return (
     <div className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md">
       <h1 className="text-6xl font-poppins text-center mb-10">
@@ -114,8 +152,14 @@ const MyProperties = () => {
       </h1>
 
       {/* my property here */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {myProperty.length > 0 ? (
+      <div
+        className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4`}
+      >
+        {myPropertyLoading ? (
+          <div className="col-span-full">
+            <Loading></Loading>
+          </div>
+        ) : !myPropertyLoading && myProperty.length > 0 ? (
           myProperty.map((p) => (
             <div
               key={p._id}

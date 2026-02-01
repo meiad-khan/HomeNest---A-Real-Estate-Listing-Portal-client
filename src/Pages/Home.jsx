@@ -6,7 +6,7 @@ import PropertyCategories from "../Components/PropertyCategories";
 import HowItWorks from "../Components/HowItWorks";
 import Loading from "../Components/Loading";
 
-const featurePromise = fetch("http://localhost:3000/feature-properties").then(
+const featurePromise = fetch("https://real-estate-server-khaki-eight.vercel.app/feature-properties").then(
   (res) => res.json(),
 );
 

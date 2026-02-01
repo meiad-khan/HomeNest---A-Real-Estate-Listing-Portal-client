@@ -11,7 +11,7 @@ const PropertyDetails = () => {
   // className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md"
 
   useEffect(() => {
-    fetch(`http://localhost:3000/reviews/${id}`)
+    fetch(`https://real-estate-server-khaki-eight.vercel.app/reviews/${id}`)
       .then((res) => res.json())
       .then((data) => {
         // console.log('after getting reviews ', data);
