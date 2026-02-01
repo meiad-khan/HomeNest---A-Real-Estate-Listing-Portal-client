@@ -263,9 +263,9 @@ const MyProperties = () => {
               </form>
             </div>
           </div>
-          <p className="py-4">
+          {/* <p className="py-4">
             Press ESC key or click the button below to close
-          </p>
+          </p> */}
           <div>
             <form onSubmit={handleUpdate}>
               <fieldset className="fieldset bg-base-200 border-base-300 rounded-box shadow-xl  border p-4">
