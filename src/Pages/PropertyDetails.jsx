@@ -1,22 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData, useParams} from "react-router";
 import { Rating } from "@smastrom/react-rating";
+import Loading from "../Components/Loading";
 
 const PropertyDetails = () => {
   const property = useLoaderData();
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
+  const [reviewLoading, setReviewLoading] = useState(false);
   // console.log('id is ', id);
   // console.log('data is ', property);
   // className="max-w-7xl mx-auto lg:p-4 mt-15 mb-20 shadow-md"
 
+  // useEffect(() => {
+  //   fetch(`https://real-estate-server-khaki-eight.vercel.app/reviews/${id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       // console.log('after getting reviews ', data);
+  //       setReviews(data);
+  //     });
+  // }, [id]);
+
   useEffect(() => {
-    fetch(`https://real-estate-server-khaki-eight.vercel.app/reviews/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log('after getting reviews ', data);
+    const fetchReview = async () => {
+      setReviewLoading(true);
+      try {
+        const res = await fetch(`https://real-estate-server-khaki-eight.vercel.app/reviews/${id}`);
+        const data = await res.json();
+        console.log("review are ", Array.isArray(data));
         setReviews(data);
-      });
+      } catch (error) {
+        console.error(error);
+      }
+      finally {
+        setReviewLoading(false);
+      }
+    }
+    fetchReview();
   }, [id]);
   // console.log('review are ', reviews);
 
@@ -92,7 +112,11 @@ const PropertyDetails = () => {
           <span className="text-primary">Ratings &</span> Reviews
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:p-4">
-          {reviews.length > 0 ? (
+          {reviewLoading ? (
+            <div className="col-span-full">
+              <Loading></Loading>
+            </div>
+          ) : reviews.length > 0 ? (
             reviews.map((r) => (
               <div
                 key={r._id}
